@@ -117,18 +117,24 @@ LookForKey:
 	mov eax, 50
 	call Delay
 	call ReadKey
-	jz LookForKey
+	jz exitcmp
 	cmp dx, VK_ESCAPE
 	je finish
-	cmp al, 77
+	cmp al, 119
 	jne elsecmp
-	add menuctrl, 1
+	cmp menuctrl, 0
+	je  exitcmp
+	add menuctrl, -1
 	jmp exitcmp
 elsecmp:
-	cmp al, 73
+	cmp al, 115
 	jne exitcmp
-	add menuctrl, -1
+	cmp menuctrl , 3
+	je exitcmp
+	add menuctrl, 1
 exitcmp:
+	mov eax, 50
+	call Delay
 	jmp Main_Menu
 	
 	
