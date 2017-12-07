@@ -1,35 +1,42 @@
 Include ..\Irvine32.inc
 
 .const
+;operator consts
+posix_0 DB 5
+posix_1 DB 14
+posix_2 DB 25
+posix_3 DB 34
+
+;graphical consts
 player0 DB "╔═══╗",0
 player1 DB "║ H ║",0
 player2 DB "╠═══╣",0
 player3 DB "╚═══╝",0
 
-car1 DB "╔═══╗",0
-car1 DB "║   ║",0
-car1 DB "╠═══╣",0
-car1 DB "╚═══╝",0
+car00 DB    "╔═══╗",0
+car01 DB    "║   ║",0
+car02 DB    "╠═══╣",0
+car03 DB    "╚═══╝",0
 
-car1r DB "╔═══╗",0
-car1r DB "╠═══╣",0
-car1r DB "║   ║",0
-car1r DB "╚═══╝",0
+car00r DB   "╔═══╗",0
+car01r DB   "╠═══╣",0
+car02r DB   "║   ║",0
+car03r DB   "╚═══╝",0
 
-car2 DB " ╔═╗ ",0
-car2 DB "╔╩═╩╗",0
-car2 DB "║   ║",0
-car2 DB "╚═══╝",0
+car10 DB    " ╔═╗ ",0
+car11 DB    "╔╩═╩╗",0
+car12 DB    "║   ║",0
+car13 DB    "╚═══╝",0
 
-car2r DB "╔═══╗",0
-car2r DB "║   ║",0
-car2r DB "╚╦═╦╝",0
-car2r DB " ╚═╝ ",0
+car10r DB   "╔═══╗",0
+car11r DB   "║   ║",0
+car12r DB   "╚╦═╦╝",0
+car13r DB   " ╚═╝ ",0
 
-oil DB " @  ",0
-oil DB "@@@@",0
-oil DB "@@@ ",0
-oil DB " @  ",0
+oil0 DB     " @@  ",0
+oil1 DB     "@@@@@",0
+oil2 DB     " @@@@",0
+oil3 DB     " @@  ",0
 
 .data
 ;Menu struct
@@ -73,28 +80,33 @@ game020 BYTE "                            ",0
 game021 BYTE "                            ",0
 game022 BYTE "                            ",0
 game023 BYTE "                            ",0
-game024 BYTE "       ###                  ",0
-game025 BYTE "      #o###                 ",0
-game026 BYTE "    #####o###               ",0
-game027 BYTE "   #o#\#|#/###              ",0
-game028 BYTE "    ###\|/#o#               ",0
-game029 BYTE "     # }|{  #               ",0
-game030 BYTE "       }|{                  ",0
-game031 BYTE "       }|{                  ",0
+game024 BYTE "                            ",0
+game025 BYTE "                            ",0
+game026 BYTE "       ###                  ",0
+game027 BYTE "      #o###                 ",0
+game028 BYTE "    #####o###               ",0
+game029 BYTE "   #o#\#|#/###              ",0
+game030 BYTE "    ###\|/#o#               ",0
+game031 BYTE "     # }|{  #               ",0
+game032 BYTE "       }|{                  ",0
+game033 BYTE "       }|{                  ",0
 
-game100 BYTE "|          ╔═══╗    |                   |",0
-game101 BYTE "|          ╠═══╣    |                   |",0
-game102 BYTE "|          ║   ║    |                   |",0
-game103 BYTE "|          ╚═══╝    |                   |",0
-game104 BYTE "|                   |            ╔═╗    |",0
-game105 BYTE "|                   |           ╔╩═╩╗   |",0
-game106 BYTE "|                   |           ║   ║   |",0
-game107 BYTE "|                   |           ╚═══╝   |",0
+carcontrol BYTE 0
+fila_obstaculos DB 6 dup(?)
+
+game100 BYTE "|                   |                   |",0
+game101 BYTE "|                   |                   |",0
+game102 BYTE "|                   |                   |",0
+game103 BYTE "|                   |                   |",0
+game104 BYTE "|                   |                   |",0
+game105 BYTE "|                   |                   |",0
+game106 BYTE "|                   |                   |",0
+game107 BYTE "|                   |                   |",0
 game108 BYTE "|                   |                   |",0
-game109 BYTE "|    @              |                   |",0
-game110 BYTE "|   @@@@            |                   |",0
-game111 BYTE "|   @@@             |                   |",0
-game112 BYTE "|    @              |                   |",0
+game109 BYTE "|                   |                   |",0
+game110 BYTE "|                   |                   |",0
+game111 BYTE "|                   |                   |",0
+game112 BYTE "|                   |                   |",0
 game113 BYTE "|                   |                   |",0
 game114 BYTE "|                   |                   |",0
 game115 BYTE "|                   |                   |",0
@@ -110,10 +122,12 @@ game124 BYTE "|                   |                   |",0
 game125 BYTE "|                   |                   |",0
 game126 BYTE "|                   |                   |",0
 game127 BYTE "|                   |                   |",0
-game128 BYTE "|                   |           ╔═══╗   |",0
-game129 BYTE "|                   |           ║ H ║   |",0
-game130 BYTE "|                   |           ╠═══╣   |",0
-game131 BYTE "|                   |           ╚═══╝   |",0
+game128 BYTE "|                   |                   |",0
+game129 BYTE "|                   |                   |",0
+game130 BYTE "|                   |                   |",0
+game131 BYTE "|                   |                   |",0
+game132 BYTE "|                   |                   |",0
+game133 BYTE "|                   |                   |",0
 
 game200 BYTE "        ###               ",0
 game201 BYTE "       #o###              ",0
@@ -143,10 +157,12 @@ game224 BYTE "     ###\|/#o#            ",0
 game225 BYTE "      # }|{  #            ",0
 game226 BYTE "        }|{               ",0
 game227 BYTE "        }|{               ",0
-game228 BYTE "      ______________      ",0
-game229 BYTE "     |Distance:10km |     ",0
-game230 BYTE "     |Time: 00:00   |     ",0
-game231 BYTE "     |______________|     ",0
+game228 BYTE "                          ",0
+game229 BYTE "                          ",0
+game230 BYTE "      ______________      ",0
+game231 BYTE "     |Distance:00km |     ",0
+game232 BYTE "     |Time:   00:00 |     ",0
+game233 BYTE "     |______________|     ",0
 
 .code
 main PROC
@@ -235,6 +251,13 @@ LookForKey:
 	jz exitcmp
 	cmp dx, VK_ESCAPE
 	je finish
+	cmp dx, VK_RETURN
+	jne nextcmp
+	cmp menuctrl, 0
+	je gameloop
+	cmp menuctrl, 3
+	je finish
+nextcmp:
 	cmp al, 119
 	jne elsecmp
 	cmp menuctrl, 0
@@ -252,6 +275,12 @@ exitcmp:
 	call Delay
 	jmp Main_Menu
 ;Fim da estrutura do menu principal
+	
+;Inicio do gameloop
+gameloop:
+	call Clrscr
+	
+	;limpando a matriz da rua e colocando o carrinho na posição
 	
 Finish:
 	exit
