@@ -92,7 +92,15 @@ game032 BYTE "       }|{                  ",0
 game033 BYTE "       }|{                  ",0
 
 carcontrol BYTE 0
-fila_obstaculos DB 6 dup(?)
+obstaculos DWORD 1
+random_number DWORD 0
+obstaculo_index DWORD 0
+obstaculo_counter DWORD 0
+
+game0 BYTE "|                   |                   |",0
+game1 BYTE "|                   |                   |",0
+game2 BYTE "|                   |                   |",0
+game3 BYTE "|                   |                   |",0
 
 game100 BYTE "|                   |                   |",0
 game101 BYTE "|                   |                   |",0
@@ -227,8 +235,10 @@ elsecmp_g:
 	je exitcmp_g
 	add carcontrol, 1
 exitcmp_g:
+	call draw_obst
+	call draw_copy
 	call draw_game
-	mov eax, 50
+	mov eax, 500
 	call Delay
 	jmp gameloop_inner
 	;limpando a matriz da rua e colocando o carrinho na posição
@@ -321,22 +331,22 @@ draw_player PROC
 	mov ecx, LENGTHOF game104
 	mov esi, OFFSET game104
 	mov edi, OFFSET game130
-	rep movsd
+	rep movsb
 	cld
 	mov ecx, LENGTHOF game104
 	mov esi, OFFSET game104
 	mov edi, OFFSET game131
-	rep movsd
+	rep movsb
 	cld
 	mov ecx, LENGTHOF game104
 	mov esi, OFFSET game104
 	mov edi, OFFSET game132
-	rep movsd
+	rep movsb
 	cld
 	mov ecx, LENGTHOF game104
 	mov esi, OFFSET game104
 	mov edi, OFFSET game133
-	rep movsd
+	rep movsb
 	
 	mov ecx, OFFSET game130
 	cmp carcontrol, 0
@@ -513,6 +523,238 @@ end_draw:
 	ret
 draw_player ENDP
 
+draw_obst PROC
+	add obstaculo_counter, 1
+	cld
+	mov ecx, LENGTHOF game104
+	mov esi, OFFSET game104
+	mov edi, OFFSET game0
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game104
+	mov esi, OFFSET game104
+	mov edi, OFFSET game1
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game104
+	mov esi, OFFSET game104
+	mov edi, OFFSET game2
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game104
+	mov esi, OFFSET game104
+	mov edi, OFFSET game3
+	rep movsb
+	
+	cmp obstaculo_counter, 4
+	je return_draw
+	mov eax, obstaculos
+	cmp eax, 1
+	jne obstaculo2
+	;inc eax
+	;mov obstaculos, eax
+	call Randomize
+	mov  eax,4     		;get random 0 to 99
+    call RandomRange 		;
+    inc  eax         		;make range 1 to 100
+    mov  random_number,eax  ;save random number
+	cmp random_number, 1
+	jne posicao2
+	mov obstaculo_index, 5
+	jmp draw_final
+posicao2:
+	cmp random_number, 2
+	jne posicao3
+	mov obstaculo_index, 14
+	jmp draw_final
+	
+posicao3:
+	cmp random_number, 3
+	jne posicao4
+	mov obstaculo_index, 25
+	jmp draw_final
+	
+posicao4:
+	mov obstaculo_index, 34
+	jmp draw_final
+draw_final:
+	mov ecx, OFFSET game0
+	mov ebx, 205
+	add ecx, obstaculo_index
+	mov BYTE PTR [ecx], bl
+	mov ebx, 201
+	add ecx, -1
+	mov BYTE PTR [ecx], bl
+	mov ebx, 187
+	add ecx, 2
+	mov BYTE PTR [ecx], bl
+	mov ecx, OFFSET game1
+	mov ebx, 205
+	add ecx, obstaculo_index
+	mov BYTE PTR [ecx], bl
+	mov ebx, 204
+	add ecx, -1
+	mov BYTE PTR [ecx], bl
+	mov ebx, 185
+	add ecx, 2
+	mov BYTE PTR [ecx], bl
+	mov ecx, OFFSET game2
+	add ecx, obstaculo_index
+	mov ebx, 186
+	add ecx, -1
+	mov BYTE PTR [ecx], bl
+	mov ebx, 186
+	add ecx, 2
+	mov BYTE PTR [ecx], bl
+	mov ecx, OFFSET game3
+	mov ebx, 205
+	add ecx, obstaculo_index
+	mov BYTE PTR [ecx], bl
+	mov ebx, 200
+	add ecx, -1
+	mov BYTE PTR [ecx], bl
+	mov ebx, 188
+	add ecx, 2
+	mov BYTE PTR [ecx], bl
+	
+obstaculo2:
+	ret
+return_draw:
+	mov obstaculo_counter, 0
+	ret
+	
+draw_obst ENDP
+
+draw_copy PROC
+	cld
+	mov ecx, LENGTHOF game120
+	mov esi, OFFSET game120
+	mov edi, OFFSET game125
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game121
+	mov esi, OFFSET game121
+	mov edi, OFFSET game126
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game122
+	mov esi, OFFSET game122
+	mov edi, OFFSET game127
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game123
+	mov esi, OFFSET game123
+	mov edi, OFFSET game128
+	rep movsb
+	
+	cld
+	mov ecx, LENGTHOF game115
+	mov esi, OFFSET game115
+	mov edi, OFFSET game120
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game116
+	mov esi, OFFSET game116
+	mov edi, OFFSET game121
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game117
+	mov esi, OFFSET game117
+	mov edi, OFFSET game122
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game118
+	mov esi, OFFSET game118
+	mov edi, OFFSET game123
+	rep movsb
+	
+	cld
+	mov ecx, LENGTHOF game110
+	mov esi, OFFSET game110
+	mov edi, OFFSET game115
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game111
+	mov esi, OFFSET game111
+	mov edi, OFFSET game116
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game112
+	mov esi, OFFSET game112
+	mov edi, OFFSET game117
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game113
+	mov esi, OFFSET game113
+	mov edi, OFFSET game118
+	rep movsb
+	
+	cld
+	mov ecx, LENGTHOF game105
+	mov esi, OFFSET game105
+	mov edi, OFFSET game110
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game106
+	mov esi, OFFSET game106
+	mov edi, OFFSET game111
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game107
+	mov esi, OFFSET game107
+	mov edi, OFFSET game112
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game108
+	mov esi, OFFSET game108
+	mov edi, OFFSET game113
+	rep movsb
+	
+	cld
+	mov ecx, LENGTHOF game100
+	mov esi, OFFSET game100
+	mov edi, OFFSET game105
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game101
+	mov esi, OFFSET game101
+	mov edi, OFFSET game106
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game102
+	mov esi, OFFSET game102
+	mov edi, OFFSET game107
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game103
+	mov esi, OFFSET game103
+	mov edi, OFFSET game108
+	rep movsb
+	
+	cld
+	mov ecx, LENGTHOF game0
+	mov esi, OFFSET game0
+	mov edi, OFFSET game100
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game1
+	mov esi, OFFSET game1
+	mov edi, OFFSET game101
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game2
+	mov esi, OFFSET game2
+	mov edi, OFFSET game102
+	rep movsb
+	cld
+	mov ecx, LENGTHOF game3
+	mov esi, OFFSET game3
+	mov edi, OFFSET game103
+	rep movsb
+	
+
+	ret
+draw_copy ENDP
 draw_game PROC
 	xor ecx, ecx
 	call Clrscr
