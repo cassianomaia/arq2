@@ -1,5 +1,5 @@
 Include ..\Irvine32.inc
-IncludeLib ..\winmm.lib
+IncludeLib winmm.lib
 .data
 ;Menu struct and vars
 menuctrl BYTE 0
@@ -410,6 +410,9 @@ exit_draw_menu:
 	call Crlf
 	call Crlf
 	Call Crlf
+	mov  edx,OFFSET menu09
+    call WriteString
+	call Crlf
 	mov  edx,OFFSET menu10
     call WriteString
 	call Crlf
