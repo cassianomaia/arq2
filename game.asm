@@ -1,5 +1,13 @@
 Include ..\Irvine32.inc
 IncludeLib winmm.lib
+
+;prototipo para a função do som
+PlaySound PROTO,
+        pszSound:PTR BYTE, 
+        hmod:DWORD, 
+        fdwSound:DWORD
+		
+		
 .data
 ;Menu struct and vars
 menuctrl BYTE 0
@@ -164,9 +172,19 @@ game231 BYTE "      Level:",0					;exibi o level na tela
 game232 BYTE "      Score:",0					;exibi o score na tela
 game233 BYTE "                          ",0
 
+;variaveis para rodar o som do jogo
+deviceConnect BYTE "DeviceConnect",0
+SND_ALIAS    DWORD 00010000h
+SND_RESOURCE DWORD 00040005h
+SND_FILENAME DWORD 00020009h
+file BYTE "c:\\LabArq2\MASM\music.wav",0
+
 .code
 main PROC
-
+;instruções para tocar a música
+	INVOKE PlaySound, OFFSET deviceConnect, NULL, SND_ALIAS
+    INVOKE PlaySound, OFFSET file, NULL, SND_FILENAME
+	
 ;Estrutura do menu principal
 Main_Menu:
 	call draw_menu
