@@ -28,6 +28,7 @@ menu10  BYTE "                           Cassiano Maia                         "
 menu11  BYTE "                           Hugo Braga                            ",0
 menu12  BYTE "                    Prof.: Luciano Neris                         ",0
 menu13  BYTE "               Disciplina: Lab. de Arq. e Org. de Computadores 2 ",0
+menu14  BYTE "                  Pressione w para subir e s para descer no menu.",0
 
 ;Help struct and vars
 helpindex BYTE 0
@@ -463,6 +464,11 @@ exit_draw_menu:
 	mov  edx,OFFSET menu13
     call WriteString
 	call Crlf
+	call Crlf
+	call Crlf
+	call Crlf
+	mov edx, OFFSET menu14
+	call WriteString
 	ret
 draw_menu ENDP
 
