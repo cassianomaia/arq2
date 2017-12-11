@@ -55,7 +55,7 @@ game001 BYTE "                   #o###    ",0
 game002 BYTE "                 #####o###  ",0
 game003 BYTE "                #o#\#|#/### ",0
 game004 BYTE "                 ###\|/#o#  ",0
-game005 BYTE "                  # }|{  #  ",0
+game005 BYTE "                    }|{     ",0
 game006 BYTE "                    }|{     ",0
 game007 BYTE "                    }|{     ",0
 game008 BYTE "                            ",0
@@ -66,7 +66,7 @@ game012 BYTE "            #o###           ",0
 game013 BYTE "          #####o###         ",0
 game014 BYTE "         #o#\#|#/###        ",0
 game015 BYTE "          ###\|/#o#         ",0
-game016 BYTE "           # }|{  #         ",0
+game016 BYTE "             }|{            ",0
 game017 BYTE "             }|{            ",0
 game018 BYTE "             }|{            ",0
 game019 BYTE "                            ",0
@@ -81,7 +81,7 @@ game027 BYTE "      #o###                 ",0
 game028 BYTE "    #####o###               ",0
 game029 BYTE "   #o#\#|#/###              ",0
 game030 BYTE "    ###\|/#o#               ",0
-game031 BYTE "     # }|{  #               ",0
+game031 BYTE "       }|{                  ",0
 game032 BYTE "       }|{                  ",0
 game033 BYTE "       }|{                  ",0
 
@@ -137,40 +137,40 @@ game131 BYTE "|                   |                   |",0
 game132 BYTE "|                   |                   |",0
 game133 BYTE "|                   |                   |",0
 
-game200 BYTE "        ###               ",0
-game201 BYTE "       #o###              ",0
-game202 BYTE "     #####o###            ",0
-game203 BYTE "    #o#\#|#/###           ",0
-game204 BYTE "     ###\|/#o#            ",0
-game205 BYTE "      # }|{  #            ",0
-game206 BYTE "        }|{               ",0
-game207 BYTE "        }|{               ",0
-game208 BYTE "                          ",0
-game209 BYTE "                          ",0
-game210 BYTE "                          ",0
-game211 BYTE "                  ###     ",0
-game212 BYTE "                 #o###    ",0
-game213 BYTE "               #####o###  ",0
-game214 BYTE "              #o#\#|#/### ",0
-game215 BYTE "               ###\|/#o#  ",0
-game216 BYTE "                # }|{  #  ",0
-game217 BYTE "                  }|{     ",0
-game218 BYTE "                  }|{     ",0
-game219 BYTE "                          ",0
-game220 BYTE "        ###               ",0
-game221 BYTE "       #o###              ",0
-game222 BYTE "     #####o###            ",0
-game223 BYTE "    #o#\#|#/###           ",0
-game224 BYTE "     ###\|/#o#            ",0
-game225 BYTE "      # }|{  #            ",0
-game226 BYTE "        }|{               ",0
-game227 BYTE "        }|{               ",0
-game228 BYTE "                          ",0
-game229 BYTE "                          ",0
-game230 BYTE "                          ",0
-game231 BYTE "      Level:",0					;exibi o level na tela
-game232 BYTE "      Score:",0					;exibi o score na tela
-game233 BYTE "                          ",0
+game200 BYTE "        ###               ",13,10,0
+game201 BYTE "       #o###              ",13,10,0
+game202 BYTE "     #####o###            ",13,10,0
+game203 BYTE "    #o#\#|#/###           ",13,10,0
+game204 BYTE "     ###\|/#o#            ",13,10,0
+game205 BYTE "        }|{               ",13,10,0
+game206 BYTE "        }|{               ",13,10,0
+game207 BYTE "        }|{               ",13,10,0
+game208 BYTE "                          ",13,10,0
+game209 BYTE "                          ",13,10,0
+game210 BYTE "                          ",13,10,0
+game211 BYTE "                  ###     ",13,10,0
+game212 BYTE "                 #o###    ",13,10,0
+game213 BYTE "               #####o###  ",13,10,0
+game214 BYTE "              #o#\#|#/### ",13,10,0
+game215 BYTE "               ###\|/#o#  ",13,10,0
+game216 BYTE "                  }|{     ",13,10,0
+game217 BYTE "                  }|{     ",13,10,0
+game218 BYTE "                  }|{     ",13,10,0
+game219 BYTE "                          ",13,10,0
+game220 BYTE "        ###               ",13,10,0
+game221 BYTE "       #o###              ",13,10,0
+game222 BYTE "     #####o###            ",13,10,0
+game223 BYTE "    #o#\#|#/###           ",13,10,0
+game224 BYTE "     ###\|/#o#            ",13,10,0
+game225 BYTE "        }|{               ",13,10,0
+game226 BYTE "        }|{               ",13,10,0
+game227 BYTE "        }|{               ",13,10,0
+game228 BYTE "                          ",13,10,0
+game229 BYTE "                          ",13,10,0
+game230 BYTE "                          ",13,10,0
+game231 BYTE "      Level:",0					;exibe o level na tela
+game232 BYTE "      Score:",0					;exibe o score na tela
+game233 BYTE "                          ",13,10,0
 
 ;variaveis para rodar o som do jogo
 deviceConnect BYTE "DeviceConnect",0
@@ -213,7 +213,7 @@ nextcmp:
 	jmp exitcmp
 elsecmp:
 	cmp al, 115     ;compara se pressionou s
-	jne exitcmp		;se não, pula para o fim, chamando um delay e reiniciando o loop
+	jne exitcmp		;se não, pula para o fim, dhamando um delay e reiniciando o loop
 	cmp menuctrl, 2 ;incrementa somente se não for 2
 	je exitcmp
 	add menuctrl, 1
@@ -227,6 +227,7 @@ exitcmp:
 gameloop_start:
 	;setando as variaveis para começar o jogo
 	call Clrscr
+	call draw_game_init
 	mov score, 0
 	mov level, 1
 	mov level_counter, 0
@@ -243,14 +244,14 @@ gameloop_inner:
 						;comparações para movimentação do player
 	cmp al, 97			;se apertou a, move para a esquerda
 	jne elsecmp_g
-	cmp carcontrol, 0	;checa se nao está na borda esquerda
+	cmp carcontrol, 0	;dheca se nao está na borda esquerda
 	je  exitcmp_g
 	add carcontrol, -1	;decrementa a posicao se nao estiver na borda esquerda
 	jmp exitcmp_g
 elsecmp_g:
 	cmp al, 100			;se apertou s, move para a direita
 	jne exitcmp_g
-	cmp carcontrol , 3  ;checa se não está na borda direita
+	cmp carcontrol , 3  ;dheca se não está na borda direita
 	je exitcmp_g
 	add carcontrol, 1	;incrementa a posicao se nao estiver na borda direita
 exitcmp_g:
@@ -272,7 +273,7 @@ finish_counter:
 	mov timer_obst, 0
 exit_timer:
 	call draw_game  ;função para desenhar a tela do jogo
-; checagem da colisão nas 4 posições possiveis
+; dhecagem da colisão nas 4 posições possiveis
 	mov ecx, OFFSET game130
 	mov eax, OFFSET game128
 	add ecx, 5
@@ -313,6 +314,7 @@ colision4:
 end_colision:
 	mov eax, 50
 	call Delay 
+	call draw_game
 	add timer_obst, 50 ;adciona 50ms a contagem para o proximo obstaculo
 	jmp gameloop_inner ;retorna ao começo do loop
 ;fim do gameloop
@@ -333,6 +335,8 @@ helploop:
 second_cmp:
 	cmp al, 119
 	jne third_cmp
+	mov eax, 50
+	call Delay
 	cmp helpindex, 0
 	je  helploop
 	add helpindex, -1
@@ -340,10 +344,11 @@ second_cmp:
 third_cmp:
 	cmp al, 115
 	jne helploop
+	mov eax, 50
+	call Delay
 	cmp helpindex , 1
 	je helploop
 	add helpindex, 1
-	je helploop
 	jmp helploop
 ;fim do loop de help
 
@@ -371,6 +376,8 @@ main ENDP
 draw_menu PROC
 	call Clrscr
 	call Crlf
+	mov  eax,cyan+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET menu01
     call WriteString
 	call Crlf
@@ -385,13 +392,19 @@ draw_menu PROC
 	call Crlf
 	mov edx, OFFSET menu05
 	call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	call Crlf
 	call Crlf
 	cmp menuctrl, 0
 	jne menu1
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov edx, OFFSET menu06h
 	call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	mov  edx,OFFSET menu07
     call WriteString
@@ -405,8 +418,12 @@ Menu1:
 	mov edx, OFFSET menu06
 	call WriteString
 	call Crlf
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET menu07h
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	mov  edx,OFFSET menu08
     call WriteString
@@ -420,8 +437,12 @@ Menu2:
 	mov  edx,OFFSET menu07
     call WriteString
 	call Crlf
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET menu08h
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 exit_draw_menu:
 	call Crlf
@@ -450,6 +471,8 @@ draw_menu ENDP
 draw_help PROC
 	call Clrscr
 	call Crlf
+	mov  eax,cyan+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET menu01
     call WriteString
 	call Crlf
@@ -464,6 +487,8 @@ draw_help PROC
 	call Crlf
 	mov edx, OFFSET menu05
 	call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	call Crlf
 	call Crlf
@@ -484,8 +509,12 @@ draw_help PROC
 	call Crlf
 	cmp helpindex, 0
 	jne helpmenu2
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET help05h
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	mov  edx,OFFSET help06
     call WriteString
@@ -494,8 +523,12 @@ helpmenu2:
 	mov  edx,OFFSET help05
     call WriteString
 	call Crlf
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET help06h
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	ret
 draw_help ENDP
 
@@ -951,234 +984,516 @@ draw_copy PROC
 	ret
 draw_copy ENDP
 
-;função que imprime todo o jogo na tela
+;função que atualiza a tela com os dados novos
 draw_game PROC
-	xor ecx, ecx
-	call Clrscr
-	call Crlf
-	mov  edx,OFFSET game000
-    call WriteString
-	mov  edx,OFFSET game100
-    call WriteString
-	mov  edx,OFFSET game200
-    call WriteString
-	call Crlf
-	mov  edx,OFFSET game001
-    call WriteString
-	mov  edx,OFFSET game101
-    call WriteString
-	mov  edx,OFFSET game201
-    call WriteString
-	call Crlf
-	mov  edx,OFFSET game002
-    call WriteString
-	mov  edx,OFFSET game102
-    call WriteString
-	mov  edx,OFFSET game202
-    call WriteString
-	call Crlf
-	mov  edx,OFFSET game003
-    call WriteString
-	mov  edx,OFFSET game103
-    call WriteString
-	mov  edx,OFFSET game203
-    call WriteString
-	call Crlf
-	mov  edx,OFFSET game004
-    call WriteString
+	xor edx, edx
+	mov dl, 28
+	mov dh, 0
+	call Gotoxy
+	push edx
+	mov edx, OFFSET game100
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game101
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game102
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game103
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
 	mov edx, OFFSET game104
 	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game105
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game106
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game107
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game108
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game109
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game110
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game111
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game112
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game113
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game114
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game115
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game116
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game117
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game118
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game119
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game120
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game121
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game122
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game123
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game124
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game125
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game126
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game127
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game128
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game129
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game130
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game131
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game132
+	call WriteString
+	pop edx
+	inc dh
+	Call Gotoxy
+	push edx
+	mov edx, OFFSET game133
+	call WriteString
+	pop edx
+	inc dh
+	mov dl,	81
+	mov dh, 32
+	call Gotoxy
+	mov eax, level
+	call WriteDec
+	inc dh
+	call Gotoxy
+	mov eax, score
+	call WriteDec
+	ret
+	
+draw_game ENDP
+
+;função que imprime todo o jogo na tela pela primeira vez
+draw_game_init PROC
+	call Clrscr
+	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game000
+    call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game100
+    call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game200
+    call WriteString
+	mov  edx,OFFSET game001
+    call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game101
+    call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game201
+    call WriteString
+	mov  edx,OFFSET game002
+    call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game102
+    call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game202
+    call WriteString
+	mov  edx,OFFSET game003
+    call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game103
+    call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
+	mov  edx,OFFSET game203
+    call WriteString
+	mov  edx,OFFSET game004
+    call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
+	mov edx, OFFSET game104
+	call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game204
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game005
     call WriteString
 	mov  edx,OFFSET game105
     call WriteString
 	mov  edx,OFFSET game205
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game006
     call WriteString
 	mov  edx,OFFSET game106
     call WriteString
 	mov  edx,OFFSET game206
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game007
     call WriteString
 	mov  edx,OFFSET game107
     call WriteString
 	mov  edx,OFFSET game207
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game008
     call WriteString
 	mov  edx,OFFSET game108
     call WriteString
 	mov  edx,OFFSET game208
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game009
     call WriteString
 	mov edx, OFFSET game109
 	call WriteString
 	mov  edx,OFFSET game209
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game010
     call WriteString
 	mov  edx,OFFSET game110
     call WriteString
 	mov  edx,OFFSET game210	
     call WriteString
-	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game011
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game111
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game211
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game012
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game112
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game212
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game013
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game113
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game213
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game014
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov edx, OFFSET game114
 	call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game214
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game015
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game115
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game215
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game016
     call WriteString
 	mov  edx,OFFSET game116
     call WriteString
 	mov  edx,OFFSET game216
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game017
     call WriteString
 	mov  edx,OFFSET game117
     call WriteString
 	mov  edx,OFFSET game217
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game018
     call WriteString
 	mov  edx,OFFSET game118
     call WriteString
 	mov  edx,OFFSET game218
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game019
     call WriteString
 	mov edx, OFFSET game119
 	call WriteString
 	mov  edx,OFFSET game219
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game020
     call WriteString
 	mov  edx,OFFSET game120
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game220
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game021
     call WriteString
 	mov  edx,OFFSET game121
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game221
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game022
     call WriteString
 	mov  edx,OFFSET game122
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game222
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game023
     call WriteString
 	mov  edx,OFFSET game123
     call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game223
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game024
     call WriteString
 	mov edx, OFFSET game124
 	call WriteString
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game224
     call WriteString
-	call Crlf
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game025
     call WriteString
 	mov  edx,OFFSET game125
     call WriteString
 	mov  edx,OFFSET game225
     call WriteString
-	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game026
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game126
     call WriteString
 	mov  edx,OFFSET game226
     call WriteString
-	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game027
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game127
     call WriteString
 	mov  edx,OFFSET game227
     call WriteString
-	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game028
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game128
     call WriteString
 	mov  edx,OFFSET game228
     call WriteString
-	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game029
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov edx, OFFSET game129
 	call WriteString
 	mov  edx,OFFSET game229
     call WriteString
-	call Crlf
+	mov  eax,green+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game030
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game130
     call WriteString
 	mov  edx,OFFSET game230
     call WriteString
-	call Crlf
 	mov  edx,OFFSET game031
     call WriteString
 	mov  edx,OFFSET game131
     call WriteString
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game231
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov eax, level
 	call WriteDec
 	call Crlf
@@ -1186,8 +1501,12 @@ draw_game PROC
     call WriteString
 	mov  edx,OFFSET game132
     call WriteString
+	mov  eax,yellow+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET game232
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	mov eax, score
 	call WriteDec
 	call Crlf
@@ -1197,9 +1516,8 @@ draw_game PROC
     call WriteString
 	mov  edx,OFFSET game233
     call WriteString
-	call Crlf
 	ret
-draw_game ENDP
+draw_game_init ENDP
 
 ;função que imprime no console a tela de perdeu
 draw_lost PROC
@@ -1222,8 +1540,12 @@ draw_lost PROC
 	call Crlf
 	call Crlf
 	call Crlf
+	mov  eax,magenta+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET lost00
     call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	mov  edx,OFFSET lost01
     call WriteString
