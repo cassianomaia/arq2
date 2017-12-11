@@ -1,0 +1,5 @@
+Para executar o jogo:
+-copie os arquivos 'jogo.asm','music.wav' e 'winmm.lib' para a pasta C:\\LabArq2\MASM
+-abra o cmd.exe
+-digite "asm32 game"
+-digite game
