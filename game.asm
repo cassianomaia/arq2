@@ -32,15 +32,14 @@ menu13  BYTE "               Disciplina: Lab. de Arq. e Org. de Computadores 2 "
 ;Help struct and vars
 helpindex BYTE 0
 
-help00  BYTE "                                                                 ",0
-help01  BYTE "                                                                 ",0
-help02  BYTE "                                                                 ",0
-help03  BYTE "                                                                 ",0
-help04  BYTE "                                                                 ",0
-help05  BYTE "                                    Jogar                        ",0
-help05h BYTE "                                  >>Jogar<<                      ",0
-help06  BYTE "                               Voltar ao menu                    ",0
-help06h BYTE "                             >>Voltar ao menu<<                  ",0
+help00  BYTE "                 Movimento do carrinho: a - move para esquerda   ",0
+help01  BYTE "                                        d - move para a direita  ",0
+help02  BYTE "                  A cada 50 pontos voce sobe de nivel, e o jogo  ",0
+help03  BYTE "                   fica mais dificil. Nao bata o carrinho! :)    ",0
+help04  BYTE "                                    Jogar                        ",0
+help04h BYTE "                                  >>Jogar<<                      ",0
+help05  BYTE "                               Voltar ao menu                    ",0
+help05h BYTE "                             >>Voltar ao menu<<                  ",0
 
 ;Lost screen struct
 lost00  BYTE "                        Voce colidiu com um carro :(             ",0
@@ -398,7 +397,7 @@ draw_menu PROC
 	call Crlf
 	call Crlf
 	cmp menuctrl, 0
-	jne menu1
+	jne Menu1
 	mov  eax,yellow+(black*16)
     call SetTextColor
 	mov edx, OFFSET menu06h
@@ -504,28 +503,26 @@ draw_help PROC
 	mov  edx,OFFSET help03
     call WriteString
 	call Crlf
-	mov  edx,OFFSET help04
-    call WriteString
 	call Crlf
 	cmp helpindex, 0
 	jne helpmenu2
 	mov  eax,yellow+(black*16)
     call SetTextColor
-	mov  edx,OFFSET help05h
+	mov  edx,OFFSET help04h
     call WriteString
 	mov  eax,white+(black*16)
     call SetTextColor
 	call Crlf
-	mov  edx,OFFSET help06
+	mov  edx,OFFSET help05
     call WriteString
 	ret
 helpmenu2:
-	mov  edx,OFFSET help05
+	mov  edx,OFFSET help04
     call WriteString
 	call Crlf
 	mov  eax,yellow+(black*16)
     call SetTextColor
-	mov  edx,OFFSET help06h
+	mov  edx,OFFSET help05h
     call WriteString
 	mov  eax,white+(black*16)
     call SetTextColor
@@ -1523,6 +1520,8 @@ draw_game_init ENDP
 draw_lost PROC
 	call Clrscr
 	call Crlf
+	mov  eax,cyan+(black*16)
+    call SetTextColor
 	mov  edx,OFFSET menu01
     call WriteString
 	call Crlf
@@ -1537,6 +1536,8 @@ draw_lost PROC
 	call Crlf
 	mov edx, OFFSET menu05
 	call WriteString
+	mov  eax,white+(black*16)
+    call SetTextColor
 	call Crlf
 	call Crlf
 	call Crlf
